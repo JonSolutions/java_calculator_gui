@@ -6,189 +6,191 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.EventListener;
 
-public  class JavaCalculatorGui  {
-    JavaCalculatorGui(){
+public class JavaCalculatorGui {
+    JavaCalculatorGui() {
+        Calculate();
     }
-    int a, b, c;
-    int multiply(){
-        c = a*b;
-        return c;
-    }
-    int subtract(){
-        c = a-b;
-        return c;
-    }
-    int add(){
-        c = a+b;
-        return c;
-    }
-    int divide(){
-        c = a/b;
-        return c;
-    }
-
-
-//    double result = 0;
-//    switch (op) {
-//        case "+": result = num1 + num2; break;
-//        case "-": result = num1 - num2; break;
-//        case "*": result = num1 * num2; break;
-//        case "/":
-//            if (num2 == 0) {
-//                resultLabel.setText("Error: Division by zero");
-//                return;
-//            }
-//            result = num1 / num2;
-//            break;
-//    }
-
-
     void Calculate(){
-       //main frame
-       JFrame frame = new JFrame("Java Calculator");
-       frame.setPreferredSize(new Dimension(400,640));
-       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//       frame.setLayout(new GridLayout(4,0));
-       frame.setLayout(new FlowLayout());
-       frame.setLocationRelativeTo(null);
-       frame.setResizable(false);
-       frame.getContentPane().setBackground(Color.GRAY);
+        //main frame
+        JFrame frame = new JFrame("Java Calculator");
+        frame.setPreferredSize(new Dimension(400,640));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new FlowLayout());
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+        frame.getContentPane().setBackground(Color.GRAY);
 
 
-       //text area for showing input
-       JTextField textArea = new JTextField();
-       textArea.setColumns(35);
-       textArea.setEditable(true);
+        //text area for showing input
+        JTextArea textArea = new JTextArea();
+        textArea.setEditable(true);
         textArea.setBackground(Color.CYAN);
-       textArea.setPreferredSize(new Dimension(390,50));
+        textArea.setForeground(Color.BLACK);
+        textArea.setFont(new Font("Serif", Font.PLAIN, 25));
+        textArea.setPreferredSize(new Dimension(380,50));
 
-       JPanel textAreaPanel = new JPanel();
-       textAreaPanel.setPreferredSize(new Dimension(390,50));
-//       textAreaPanel.setBackground(Color.green);
-       textAreaPanel.setLayout(new FlowLayout());
-       textAreaPanel.add(textArea, BorderLayout.EAST);
-//        textAreaPanel.add(textArea1, BorderLayout.WEST);
+        //text area panel
+        JPanel textAreaPanel = new JPanel();
+        textAreaPanel.setPreferredSize(new Dimension(390,50));
+        textAreaPanel.setLayout(new FlowLayout());
+
+
 
         //display answer label
-       JLabel displayAnswerLabel = new JLabel("label");
-       //jpanel for displaying answer
-       JPanel answerPanel = new JPanel();
-       answerPanel.setPreferredSize(new Dimension(390,25));
-//       answerPanel.setBackground(Color.yellow);
+        JLabel displayAnswerLabel = new JLabel("Answer...");
+        JPanel answerPanel = new JPanel();
+        answerPanel.setPreferredSize(new Dimension(390,25));
 
         //jpanel1 for numbers: 1-0, X & C
         JPanel numbersPanel = new JPanel();
         numbersPanel.setPreferredSize(new Dimension(390,350));
-//        numbersPanel.setBackground(Color.red);
         numbersPanel.setLayout(new GridLayout(4,3));
 
-
-       JButton zeroButton = new JButton("0");
-       zeroButton.addActionListener(e->textArea.setText("0"));
-       numbersPanel.add(zeroButton);
-
-       JButton oneButton = new JButton("1");
-       oneButton.addActionListener(e -> textArea.setText("1"));
-       oneButton.addActionListener(e -> displayAnswerLabel.setText("one"));
-       numbersPanel.add(oneButton);
-
-       JButton twoButton = new JButton("2");
-       twoButton.addActionListener(e -> textArea.setText("2"));
-       twoButton.addActionListener(e -> displayAnswerLabel.setText("two"));
-       numbersPanel.add(twoButton);
-
-       JButton threeButton = new JButton("3");
-       threeButton.addActionListener(e -> textArea.setText("3"));
-       threeButton.addActionListener(e -> displayAnswerLabel.setText("three"));
-       threeButton.setActionCommand("3");
-       numbersPanel.add(threeButton);
-
-       JButton fourButton = new JButton("4");
-       fourButton.addActionListener(e -> textArea.setText("4"));
-       fourButton.addActionListener(e -> displayAnswerLabel.setText("four"));
-       fourButton.setActionCommand("4");
-       numbersPanel.add(fourButton);
-
-       JButton fiveButton = new JButton("5");
-       fiveButton.addActionListener(e -> textArea.setText("5"));
-       fiveButton.addActionListener(e -> displayAnswerLabel.setText("five"));
-       fiveButton.setActionCommand("5");
-       numbersPanel.add(fiveButton);
-
-       JButton sixButton = new JButton("6");
-       sixButton.addActionListener(e -> textArea.setText("6"));
-       sixButton.addActionListener(e -> displayAnswerLabel.setText("six"));
-       sixButton.setActionCommand("6");
-       numbersPanel.add(sixButton);
+        String[] numbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+        for (String num : numbers) {
+            JButton Button = new JButton(num);
+            Button.addActionListener(e-> textArea.append(num));
+            numbersPanel.add(Button);
+        }
 
 
-       JButton sevenButton = new JButton("7");
-       sevenButton.addActionListener(e -> textArea.setText("7"));
-       sevenButton.addActionListener(e -> displayAnswerLabel.setText("seven"));
-       numbersPanel.add(sevenButton);
+        JButton singleCharacterDeleteButton = new JButton("X");
+        singleCharacterDeleteButton.addActionListener(e -> {
 
-       JButton eightButton = new JButton("8");
-       eightButton.addActionListener(e -> textArea.setText("8"));
-       eightButton.addActionListener(e -> displayAnswerLabel.setText("eight"));
-       numbersPanel.add(eightButton);
+            String input = textArea.getText();
+            int index = input.length();
+            input = input.substring(0, index - 1);
+            textArea.setText(input);
 
-       JButton nineButton = new JButton("9");
-       nineButton.addActionListener(e -> textArea.setText("9"));
-       nineButton.addActionListener(e -> displayAnswerLabel.setText("nine"));
-       numbersPanel.add(nineButton);
+        });
+        numbersPanel.add(singleCharacterDeleteButton);
 
-       JButton tenButton = new JButton("=");
-       tenButton.addActionListener(e -> textArea.setText("="));
 
-       numbersPanel.add(tenButton);
+        JButton zeroButton = new JButton("0");
+        zeroButton.addActionListener(e -> {
+            textArea.append("0");
+        });
+        zeroButton.addActionListener(e -> displayAnswerLabel.setText("zero"));
+        numbersPanel.add(zeroButton);
 
-       JButton elevenButton = new JButton("C");
-       elevenButton.addActionListener(e -> textArea.setText(""));
-       elevenButton.setActionCommand("C");
-       numbersPanel.add(elevenButton);
 
-       //Jpanel2 for operators: +, -, *, /
-       JPanel operatorsPanel = new JPanel();
-       operatorsPanel.setPreferredSize(new Dimension(390,175));
-//       operatorsPanel.setBackground(Color.blue);
-       operatorsPanel.setLayout(new FlowLayout());
-//       operatorsPanel.setLayout(new GridLayout(1,4));
 
-        JButton multiButton = new JButton("*");
-        multiButton.addActionListener(e -> textArea.setText("*"));
-        multiButton.setActionCommand("*");
-        multiButton.setPreferredSize(new Dimension(90,150));
-        operatorsPanel.add(multiButton);
+        JButton elevenButton = new JButton("C");
+        elevenButton.addActionListener(e -> textArea.setText(" "));
+        elevenButton.setActionCommand("C");
+        numbersPanel.add(elevenButton);
 
-        JButton minusButton = new JButton("-");
-        minusButton.addActionListener(e -> textArea.setText("-"));
-        minusButton.setActionCommand("-");
-        minusButton.setPreferredSize(new Dimension(90,150));
-        operatorsPanel.add(minusButton);
+        //Jpanel2 for operators: +, -, *, /
+        JPanel operatorsPanel = new JPanel();
+        operatorsPanel.setPreferredSize(new Dimension(390,175));
+        operatorsPanel.setLayout(new FlowLayout());
 
-        JButton addButton = new JButton("+");
-        addButton.addActionListener(e -> textArea.setText("+"));
-        addButton.setActionCommand("+");
-        addButton.setPreferredSize(new Dimension(90,150));
-        operatorsPanel.add(addButton);
+        String[] operators = {" + ", " - ", " * ", " / ", " % "};
+        for (String op : operators) {
+            JButton button = new JButton(op);
 
-        JButton divisionButton = new JButton("/");
-        divisionButton.addActionListener(e -> textArea.setText("/"));
-        divisionButton.setActionCommand("/");
-        divisionButton.setPreferredSize(new Dimension(90,150));
-        operatorsPanel.add(divisionButton);
+            button.addActionListener(e -> textArea.append(op));
+            button.setActionCommand(op);
+            button.setPreferredSize(new Dimension(70, 60));
+            button.setFont(new Font("Arial",Font.BOLD,25));
+            operatorsPanel.add(button);
+        }
+        JButton equalsButton = new JButton(" = ");
+        equalsButton.addActionListener(e -> calculation_logic(textArea, displayAnswerLabel));
+        equalsButton.setPreferredSize(new Dimension(400, 80));
+        equalsButton.setFont(new Font("Arial",Font.BOLD,50));
+        operatorsPanel.add(equalsButton);
 
-       textAreaPanel.add(textArea);
-       frame.add(textAreaPanel);
-       answerPanel.add(displayAnswerLabel);
-       frame.add(answerPanel);
-       frame.add(numbersPanel);
-       frame.add(operatorsPanel);
-       frame.pack();
-       frame.setVisible(true);
-
+        textAreaPanel.add(textArea);
+        frame.add(textAreaPanel);
+        answerPanel.add(displayAnswerLabel);
+        frame.add(answerPanel);
+        frame.add(numbersPanel);
+        frame.add(operatorsPanel);
+        frame.pack();
+        frame.setVisible(true);
     }
 
+    void calculation_logic(JTextArea textArea, JLabel displayAnswerLabel) {
+        String[] operators = {" + ", " - ", " * ", "/", " % "};
+        String input = textArea.getText();
+        for (String op : operators) {
+            boolean x = input.contains(op);
+
+            text_area_logic(x, input,textArea,displayAnswerLabel, op);
+        }
+
+    }
+    void text_area_logic(boolean x, String input, JTextArea textArea, JLabel displayAnswerLabel, String op) {
+        if(x){
+            long long_first_part = 0;
+            long long_second_part = 0;
+            long result;
+            input.trim();
+            String first_part = input.substring(0, input.indexOf(op));
+            first_part.trim();
+            String second_part = input.substring(input.indexOf(op) + 3);
+            second_part.trim();
+            if((second_part.isEmpty() && first_part.isEmpty())||(second_part.isEmpty())||(first_part.isEmpty())){
+                displayAnswerLabel.setText("Invalid operation!!");
+                textArea.setText("");
+                return;
+            }
+            try {
+                long_first_part = Long.parseLong(first_part);
+                long_second_part = Long.parseLong(second_part);
+            }catch (NumberFormatException e) {
+                displayAnswerLabel.setText("Error: '" + first_part + " or " + second_part + "' is not a valid number!");
+                textArea.setText("");
+                return;
+            }
+
+            System.out.println(first_part);
+            System.out.println(second_part);
+
+            switch (op) {
+                case " + ":
+                    result = long_first_part + long_second_part;
+                    String.valueOf(result);
+                    textArea.setText("");
+                    displayAnswerLabel.setText("ans: " + first_part + op + second_part + " = " + result);
+                    break;
+                case " - ":
+                    result = long_first_part - long_second_part;
+                    String.valueOf(result);
+                    textArea.setText("");
+                    displayAnswerLabel.setText("ans: " + first_part + op + second_part + " = " + result);
+                    break;
+                case " * ":
+                    result = long_first_part * long_second_part;
+                    String.valueOf(result);
+                    textArea.setText("");
+                    displayAnswerLabel.setText("ans: " + first_part + op + second_part + " = " + result);
+                    break;
+                case " % ":
+                    result = long_first_part % long_second_part;
+                    String.valueOf(result);
+                    textArea.setText("");
+                    displayAnswerLabel.setText("ans: " + first_part + op + second_part + " = " + result);
+                    break;
+                case " / ":
+                    long_first_part = Long.parseLong(first_part);
+                    long_second_part = Integer.parseInt(second_part);
+                    if (long_second_part == 0){
+                        displayAnswerLabel.setText("Division by zero long_second_part");
+                    }
+                    result = long_first_part / long_second_part;
+                    String.valueOf(result);
+                    textArea.setText("");
+                    displayAnswerLabel.setText("ans: " + first_part + " / " + second_part + " = " + result);
+                    break;
+
+
+            }
+
+        }
+
+
+    }
 }
