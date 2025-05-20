@@ -113,33 +113,34 @@ public class JavaCalculatorGui {
     }
 
     void calculation_logic(JTextArea textArea, JLabel displayAnswerLabel) {
-        String[] operators = {" + ", " - ", " * ", "/", " % "};
+        String[] operators = {"+", "-", "*", "/", "%"};
         String input = textArea.getText();
         for (String op : operators) {
             boolean x = input.contains(op);
-
             text_area_logic(x, input,textArea,displayAnswerLabel, op);
         }
 
     }
     void text_area_logic(boolean x, String input, JTextArea textArea, JLabel displayAnswerLabel, String op) {
         if(x){
-            long long_first_part = 0;
-            long long_second_part = 0;
-            long result;
-            input.trim();
+            long long_first_part1;
+            long long_second_part1;
+            double result;
+            input = input.replace(" ", "");
             String first_part = input.substring(0, input.indexOf(op));
-            first_part.trim();
-            String second_part = input.substring(input.indexOf(op) + 3);
-            second_part.trim();
-            if((second_part.isEmpty() && first_part.isEmpty())||(second_part.isEmpty())||(first_part.isEmpty())){
+            String second_part = input.substring(input.indexOf(op) + 1);
+            if(second_part.isEmpty()||first_part.isEmpty()){
                 displayAnswerLabel.setText("Invalid operation!!");
+                textArea.setText("");
+                return;
+            }else if(op.isEmpty()){
+                displayAnswerLabel.setText(first_part);
                 textArea.setText("");
                 return;
             }
             try {
-                long_first_part = Long.parseLong(first_part);
-                long_second_part = Long.parseLong(second_part);
+                long_first_part1 = Long.parseLong(first_part);
+                long_second_part1 = Long.parseLong(second_part);
             }catch (NumberFormatException e) {
                 displayAnswerLabel.setText("Error: '" + first_part + " or " + second_part + "' is not a valid number!");
                 textArea.setText("");
@@ -148,40 +149,45 @@ public class JavaCalculatorGui {
 
             System.out.println(first_part);
             System.out.println(second_part);
-
+            double long_first_part = long_first_part1;
+            double long_second_part = long_second_part1;
+            double answer;
             switch (op) {
-                case " + ":
+                case "+":
                     result = long_first_part + long_second_part;
-                    String.valueOf(result);
+                    answer = result;
+                    String.valueOf(answer);
                     textArea.setText("");
                     displayAnswerLabel.setText("ans: " + first_part + op + second_part + " = " + result);
                     break;
-                case " - ":
+                case "-":
                     result = long_first_part - long_second_part;
-                    String.valueOf(result);
+                    answer = result;
+                    String.valueOf(answer);
                     textArea.setText("");
                     displayAnswerLabel.setText("ans: " + first_part + op + second_part + " = " + result);
                     break;
-                case " * ":
+                case "*":
                     result = long_first_part * long_second_part;
-                    String.valueOf(result);
+                    answer = result;
+                    String.valueOf(answer);
                     textArea.setText("");
                     displayAnswerLabel.setText("ans: " + first_part + op + second_part + " = " + result);
                     break;
-                case " % ":
+                case "%":
                     result = long_first_part % long_second_part;
-                    String.valueOf(result);
+                    answer = result;
+                    String.valueOf(answer);
                     textArea.setText("");
                     displayAnswerLabel.setText("ans: " + first_part + op + second_part + " = " + result);
                     break;
-                case " / ":
-                    long_first_part = Long.parseLong(first_part);
-                    long_second_part = Integer.parseInt(second_part);
+                case "/":
                     if (long_second_part == 0){
                         displayAnswerLabel.setText("Division by zero long_second_part");
                     }
                     result = long_first_part / long_second_part;
-                    String.valueOf(result);
+                    answer = result;
+                    String.valueOf(answer);
                     textArea.setText("");
                     displayAnswerLabel.setText("ans: " + first_part + " / " + second_part + " = " + result);
                     break;
